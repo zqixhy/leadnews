@@ -1,0 +1,26 @@
+server:
+  port: 51602
+spring:
+  application:
+    name: leadnews-wemedia-gateway
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedHeaders: "*"
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - OPTION
+      routes:
+        - id: wemedia
+          uri: http://localhost:51803
+          predicates:
+            - Path=/wemedia/**
+          filters:
+            - StripPrefix= 1
