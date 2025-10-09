@@ -50,13 +50,7 @@ public class MinIOFileStorageService implements FileStorageService {
         return stringBuilder.toString();
     }
 
-    /**
-     *  上传图片文件
-     * @param prefix  文件前缀
-     * @param filename  文件名
-     * @param inputStream 文件流
-     * @return  文件全路径
-     */
+
     @Override
     public String uploadImgFile(String prefix, String filename, InputStream inputStream) {
         String filePath = builderFilePath(prefix, filename);
@@ -78,13 +72,7 @@ public class MinIOFileStorageService implements FileStorageService {
         }
     }
 
-    /**
-     *  上传html文件
-     * @param prefix  文件前缀
-     * @param filename   文件名
-     * @param inputStream  文件流
-     * @return  文件全路径
-     */
+
     @Override
     public String uploadHtmlFile(String prefix, String filename,InputStream inputStream) {
         String filePath = builderFilePath(prefix, filename);
@@ -107,17 +95,13 @@ public class MinIOFileStorageService implements FileStorageService {
         }
     }
 
-    /**
-     * 删除文件
-     * @param pathUrl  文件全路径
-     */
+
     @Override
     public void delete(String pathUrl) {
         String key = pathUrl.replace(minIOConfigProperties.getEndpoint()+"/","");
         int index = key.indexOf(separator);
         String bucket = key.substring(0,index);
         String filePath = key.substring(index+1);
-        // 删除Objects
         RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder().bucket(bucket).object(filePath).build();
         try {
             minioClient.removeObject(removeObjectArgs);
@@ -128,12 +112,7 @@ public class MinIOFileStorageService implements FileStorageService {
     }
 
 
-    /**
-     * 下载文件
-     * @param pathUrl  文件全路径
-     * @return  文件流
-     *
-     */
+
     @Override
     public byte[] downLoadFile(String pathUrl)  {
         String key = pathUrl.replace(minIOConfigProperties.getEndpoint()+"/","");

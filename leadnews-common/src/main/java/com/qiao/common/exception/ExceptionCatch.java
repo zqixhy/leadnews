@@ -18,11 +18,6 @@ public class ExceptionCatch {
         return ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR);
     }
 
-    /**
-     * 处理可控异常  自定义异常
-     * @param e
-     * @return
-     */
     @ExceptionHandler(CustomException.class)
     @ResponseBody
     public ResponseResult exception(CustomException e){

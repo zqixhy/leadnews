@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @EnableConfigurationProperties({MinIOConfigProperties.class})
-//当引入FileStorageService接口时
 @ConditionalOnClass(FileStorageService.class)
 public class MinIOConfig {
 

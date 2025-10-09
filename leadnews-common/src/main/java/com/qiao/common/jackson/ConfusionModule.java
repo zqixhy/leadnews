@@ -26,10 +26,6 @@ public class ConfusionModule extends Module {
         context.addBeanDeserializerModifier(new ConfusionDeserializerModifier());
     }
 
-    /**
-     * 注册当前模块
-     * @return
-     */
     public static ObjectMapper registerModule(ObjectMapper objectMapper){
         //CamelCase策略，Java对象属性：personId，序列化后属性：persionId
         //PascalCase策略，Java对象属性：personId，序列化后属性：PersonId
