@@ -22,10 +22,9 @@ public class ApAuthor implements Serializable {
     private String name;
 
     /**
-     * 账号类型
-     0 爬虫数据
-     1 签约合作商
-     2 平台自媒体人
+     0 CRAWLER
+     1 PARTNER
+     2 CREATOR
      */
     @TableField("type")
     private Short type;

@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "leadnews-article",fallback = IArticleClientFallback.class)
+@FeignClient(name = "leadnews-article",fallback = IArticleClientFallback.class, path = "/api/v1/article")
 public interface IArticleClient {
-    @PostMapping("/api/v1/article/save")
+    @PostMapping("/save")
     public ResponseResult saveArticle(@RequestBody ArticleDto dto);
 
-    @GetMapping("/api/v1/article/del/{id}")
+    @GetMapping("/del/{id}")
     public ResponseResult delArticle(@PathVariable Long id);
 
-    @GetMapping("/api/v1/article/getOne/{id}")
+    @GetMapping("/getOne/{id}")
     public ApArticle getOne(@PathVariable Long id);
 
-    @PostMapping("/api/v1/article/apAuthor/save")
+    @PostMapping("/apAuthor/save")
     public ResponseResult saveApAuthor(@RequestBody ApAuthor apAuthor);
 
-    @GetMapping("/api/v1/article/apAuthor/getOne")
+    @GetMapping("/apAuthor/getOne/{id}")
     public ApAuthor getByUserId(@PathVariable Integer id);
 
 

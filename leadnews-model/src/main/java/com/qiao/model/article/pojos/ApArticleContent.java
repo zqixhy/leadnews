@@ -15,14 +15,8 @@ public class ApArticleContent implements Serializable {
     @TableId(value = "id",type = IdType.ASSIGN_ID)
     private Long id;
 
-    /**
-     * 文章id
-     */
     @TableField("article_id")
     private Long articleId;
 
-    /**
-     * 文章内容
-     */
     private String content;
 }
