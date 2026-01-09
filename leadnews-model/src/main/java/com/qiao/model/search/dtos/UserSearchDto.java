@@ -10,13 +10,13 @@ public class UserSearchDto {
 
     String searchWords;
     /**
-    * 当前页
+    * curr page
     */
     int pageNum;
 
     int pageSize;
     /**
-    * 最小时间
+    * min time
     */
     Date minBehotTime;
 
