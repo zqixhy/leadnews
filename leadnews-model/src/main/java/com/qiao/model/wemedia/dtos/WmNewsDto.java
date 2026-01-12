@@ -18,11 +18,11 @@ public class WmNewsDto {
     private List<String> images;
 
     /**
-     * 文章封面类型  0 无图 1 单图 3 多图 -1 自动
+     * 0 no image 1 single image 3 multi images -1 auto
      */
     private Short type;
      /**
-     * 状态 提交为1  草稿为0
+     * upload: 1  draft:0
      */
     private Short status;
 

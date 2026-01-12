@@ -72,7 +72,7 @@ public class WmChannelServiceImpl extends ServiceImpl<WmChannelMapper, WmChannel
 
         List<WmNews> list = wmNewsService.list(Wrappers.<WmNews>lambdaQuery().eq(WmNews::getChannelId, id));
 
-        if(list != null || list.size() != 0){
+        if(list.isEmpty()){
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"channel is used in article");
         }
 

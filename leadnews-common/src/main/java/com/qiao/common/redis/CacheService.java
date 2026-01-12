@@ -477,7 +477,7 @@ public class CacheService extends CachingConfigurerSupport {
     }
 
     /**
-     * 根据Score值查询集合元素, 从大到小排序
+     * Get Zset, sort from big to small
      *
      * @param key
      * @param min
@@ -490,7 +490,7 @@ public class CacheService extends CachingConfigurerSupport {
     }
 
     /**
-     * 根据Score值查询集合元素, 从大到小排序
+     * Get Zset, sort from big to small
      *
      * @param key
      * @param min
@@ -519,7 +519,7 @@ public class CacheService extends CachingConfigurerSupport {
     }
 
     /**
-     * 根据score值获取集合元素数量
+     * Get Zset count
      *
      * @param key
      * @param min
@@ -531,7 +531,7 @@ public class CacheService extends CachingConfigurerSupport {
     }
 
     /**
-     * 获取集合大小
+     * Get Zset size
      *
      * @param key
      * @return

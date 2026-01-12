@@ -7,8 +7,8 @@ import lombok.Data;
 public class WmMaterialDto extends PageRequestDto {
 
     /**
-     * 1 收藏
-     * 0 未收藏
+     * 1 true
+     * 0 false
      */
     private Short isCollection;
 }

@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TaskTypeEnum {
 
-    NEWS_SCAN_TIME(1001, 1,"文章定时审核"),
-    REMOTEERROR(1002, 2,"第三方接口调用失败，重试");
+    NEWS_SCAN_TIME(1001, 1,"news scan time"),
+    REMOTEERROR(1002, 2,"error, try again");
     private final int taskType;
     private final int priority;
     private final String desc;

@@ -93,7 +93,7 @@ public class WmMaterialServiceImpl extends ServiceImpl<WmMaterialMapper, WmMater
             return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST);
         }
         List<WmNewsMaterial> wmNewsMaterials = wmNewsMaterialMapper.selectList(Wrappers.<WmNewsMaterial>lambdaQuery().eq(WmNewsMaterial::getMaterialId, id));
-        if(wmNewsMaterials !=null || wmNewsMaterials.size() !=0){
+        if(wmNewsMaterials.isEmpty()){
             return ResponseResult.errorResult(AppHttpCodeEnum.MATERIAL_REFERENCED);
         }
 

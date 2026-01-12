@@ -30,12 +30,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional
 public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> implements WmNewsService {
 
     @Override
@@ -118,7 +120,7 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
             return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
         }
 
-        List<String> materials = ectractUrlInfo(dto.getContent());
+        List<String> materials = extractUrlInfo(dto.getContent());
 
         saveRelativeInfoForContent(materials,wmNews.getId());
         saveRelativeInfoForCover(dto,wmNews,materials);
@@ -296,7 +298,7 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
             updateById(wmNews);
         }
     }
-    private List<String> ectractUrlInfo(String content){
+    private List<String> extractUrlInfo(String content){
         List<String> materials = new ArrayList<>();
         List<Map> maps = JSON.parseArray(content, Map.class);
         for(Map map : maps){
