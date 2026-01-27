@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 @SpringBootApplication
 @MapperScan("com.qiao.article.mapper")
 @EnableAsync
+@EnableDiscoveryClient
 public class ArticleApplication {
     public static void main(String[] args) {
         SpringApplication.run(ArticleApplication.class,args);

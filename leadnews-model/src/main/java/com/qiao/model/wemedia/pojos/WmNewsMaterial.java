@@ -9,9 +9,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * <p>
- * 自媒体图文引用素材信息表
- * </p>
+ * WeMedia news material reference entity
  *
  * @author itheima
  */
@@ -22,33 +20,33 @@ public class WmNewsMaterial implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * Primary key
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 素材ID
+     * Material ID
      */
     @TableField("material_id")
     private Integer materialId;
 
     /**
-     * 图文ID
+     * News ID
      */
     @TableField("news_id")
     private Integer newsId;
 
     /**
-     * 引用类型
-            0 内容引用
-            1 主图引用
+     * Reference type
+     * 0: Content reference
+     * 1: Cover image reference
      */
     @TableField("type")
     private Short type;
 
     /**
-     * 引用排序
+     * Reference sort order
      */
     @TableField("ord")
     private Short ord;

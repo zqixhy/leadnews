@@ -1,8 +1,4 @@
-server:
-  port: 6001
 spring:
-  application:
-    name: leadnews-admin-gateway
   cloud:
     gateway:
       globalcors:
@@ -19,25 +15,25 @@ spring:
               - OPTION
       routes:
         - id: admin
-          uri: http://localhost:51805
+          uri: lb://leadnews-admin
           predicates:
             - Path=/admin/**
           filters:
             - StripPrefix= 1
         - id: user
-          uri: http://localhost:51801
+          uri: lb://leadnews-user
           predicates:
             - Path=/user/**
           filters:
             - StripPrefix= 1
         - id: article
-          uri: http://localhost:51802
+          uri: lb://leadnews-article
           predicates:
             - Path=/article/**
           filters:
             - StripPrefix= 1
         - id: wemedia
-          uri: http://localhost:51803
+          uri: lb://leadnews-wemedia
           predicates:
             - Path=/wemedia/**
           filters:

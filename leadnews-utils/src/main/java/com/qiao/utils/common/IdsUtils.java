@@ -5,7 +5,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * 数字ID混淆器，用于前后端数据通信时候的处理
+ * ID obfuscator utility for encrypting/decrypting numeric IDs
+ * Used for secure data transmission between frontend and backend
  */
 public class IdsUtils {
 

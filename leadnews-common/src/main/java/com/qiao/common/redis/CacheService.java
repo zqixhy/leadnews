@@ -541,57 +541,57 @@ public class CacheService extends CachingConfigurerSupport {
     }
 
     /**
-     * 获取集合大小
+     * Get the size of sorted set
      *
-     * @param key
-     * @return
+     * @param key Redis key
+     * @return Size of the sorted set
      */
     public Long zZCard(String key) {
         return stringRedisTemplate.opsForZSet().zCard(key);
     }
 
     /**
-     * 获取集合中value元素的score值
+     * Get the score of value element in sorted set
      *
-     * @param key
-     * @param value
-     * @return
+     * @param key Redis key
+     * @param value Element value
+     * @return Score of the element
      */
     public Double zScore(String key, Object value) {
         return stringRedisTemplate.opsForZSet().score(key, value);
     }
 
     /**
-     * 移除指定索引位置的成员
+     * Remove members by index range
      *
-     * @param key
-     * @param start
-     * @param end
-     * @return
+     * @param key Redis key
+     * @param start Start index
+     * @param end End index
+     * @return Number of removed members
      */
     public Long zRemoveRange(String key, long start, long end) {
         return stringRedisTemplate.opsForZSet().removeRange(key, start, end);
     }
 
     /**
-     * 根据指定的score值的范围来移除成员
+     * Remove members by score range
      *
-     * @param key
-     * @param min
-     * @param max
-     * @return
+     * @param key Redis key
+     * @param min Minimum score
+     * @param max Maximum score
+     * @return Number of removed members
      */
     public Long zRemoveRangeByScore(String key, double min, double max) {
         return stringRedisTemplate.opsForZSet().removeRangeByScore(key, min, max);
     }
 
     /**
-     * 获取key和otherKey的并集并存储在destKey中
+     * Union two sorted sets and store result in destination key
      *
-     * @param key
-     * @param otherKey
-     * @param destKey
-     * @return
+     * @param key First sorted set key
+     * @param otherKey Second sorted set key
+     * @param destKey Destination key
+     * @return Size of result set
      */
     public Long zUnionAndStore(String key, String otherKey, String destKey) {
         return stringRedisTemplate.opsForZSet().unionAndStore(key, otherKey, destKey);
@@ -611,12 +611,12 @@ public class CacheService extends CachingConfigurerSupport {
     }
 
     /**
-     * 交集
+     * Intersect two sorted sets and store result in destination key
      *
-     * @param key
-     * @param otherKey
-     * @param destKey
-     * @return
+     * @param key First sorted set key
+     * @param otherKey Second sorted set key
+     * @param destKey Destination key
+     * @return Size of result set
      */
     public Long zIntersectAndStore(String key, String otherKey,
                                    String destKey) {
@@ -625,12 +625,12 @@ public class CacheService extends CachingConfigurerSupport {
     }
 
     /**
-     * 交集
+     * Intersect multiple sorted sets and store result in destination key
      *
-     * @param key
-     * @param otherKeys
-     * @param destKey
-     * @return
+     * @param key First sorted set key
+     * @param otherKeys Other sorted set keys
+     * @param destKey Destination key
+     * @return Size of result set
      */
     public Long zIntersectAndStore(String key, Collection<String> otherKeys,
                                    String destKey) {
@@ -649,9 +649,10 @@ public class CacheService extends CachingConfigurerSupport {
     }
 
     /**
-     * 扫描主键，建议使用
-     * @param patten
-     * @return
+     * Scan keys matching pattern (recommended for production use)
+     *
+     * @param patten Key pattern to match
+     * @return Set of matching keys
      */
     public Set<String> scan(String patten){
         Set<String> keys = stringRedisTemplate.execute((RedisCallback<Set<String>>) connection -> {
@@ -668,18 +669,19 @@ public class CacheService extends CachingConfigurerSupport {
     }
     
     /**
-     * 管道技术，提高性能
-     * @param type
-     * @param values
-     * @return
+     * Batch push to Redis List using Pipeline for improved performance
+     *
+     * @param type Redis List key
+     * @param values Collection of values to push
+     * @return List of pipeline execution results
      */
     public List<Object> lRightPushPipeline(String type,Collection<String> values){
         List<Object> results = stringRedisTemplate.executePipelined(new RedisCallback<Object>() {
                     public Object doInRedis(RedisConnection connection) throws DataAccessException {
                         StringRedisConnection stringRedisConn = (StringRedisConnection)connection;
-                        //集合转换数组
+                        // Convert collection to array
                         String[] strings = values.toArray(new String[values.size()]);
-                        //直接批量发送
+                        // Batch push to Redis List
                         stringRedisConn.rPush(type, strings);
                         return null;
                     }
@@ -687,6 +689,16 @@ public class CacheService extends CachingConfigurerSupport {
         return results;
     }
 
+    /**
+     * Refresh tasks from ZSet to List using Pipeline for batch operations
+     * This method is used in the scheduled task refresh mechanism to migrate
+     * expired tasks from future_* ZSet to topic_* List for execution
+     *
+     * @param future_key Redis ZSet key for future tasks
+     * @param topic_key Redis List key for ready tasks
+     * @param values Collection of task values to migrate
+     * @return List of pipeline execution results
+     */
     public List<Object> refreshWithPipeline(String future_key,String topic_key,Collection<String> values){
 
         List<Object> objects = stringRedisTemplate.executePipelined(new RedisCallback<Object>() {
@@ -695,7 +707,9 @@ public class CacheService extends CachingConfigurerSupport {
             public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
                 StringRedisConnection stringRedisConnection = (StringRedisConnection)redisConnection;
                 String[] strings = values.toArray(new String[values.size()]);
+                // Add tasks to List for immediate execution
                 stringRedisConnection.rPush(topic_key,strings);
+                // Remove tasks from ZSet
                 stringRedisConnection.zRem(future_key,strings);
                 return null;
             }
@@ -704,11 +718,11 @@ public class CacheService extends CachingConfigurerSupport {
     }
 
     /**
-     * 加锁
+     * Try to acquire distributed lock using Redis SET NX command
      *
-     * @param name
-     * @param expire
-     * @return
+     * @param name Lock name
+     * @param expire Lock expiration time in milliseconds
+     * @return Lock token if acquired successfully, null otherwise
      */
     public String tryLock(String name, long expire) {
         name = name + "_lock";
@@ -717,8 +731,8 @@ public class CacheService extends CachingConfigurerSupport {
         RedisConnection conn = factory.getConnection();
         try {
 
-            //参考redis命令：
-            //set key value [EX seconds] [PX milliseconds] [NX|XX]
+            // Reference Redis command:
+            // SET key value [EX seconds] [PX milliseconds] [NX|XX]
             Boolean result = conn.set(
                     name.getBytes(),
                     token.getBytes(),

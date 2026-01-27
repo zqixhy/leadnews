@@ -17,7 +17,7 @@ public class WmNews implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * Primary key
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -45,34 +45,36 @@ public class WmNews implements Serializable {
     private Short enable;
 
     /**
-     * 文章布局
-            0 无图文章
-            1 单图文章
-            3 多图文章
+     * Article layout type
+     * 0: No image
+     * 1: Single image
+     * 3: Multiple images
      */
     @TableField("type")
     private Short type;
 
     /**
-     * 当前状态
-            0 草稿
-            1 提交（待审核）
-            2 审核失败
-            3 人工审核
-            4 人工审核通过
-            8 审核通过（待发布）
-            9 已发布
+     * Current article status
+     * 0: Draft
+     * 1: Submitted (pending review)
+     * 2: Review failed
+     * 3: Manual review
+     * 4: Manual review passed
+     * 8: Review passed (pending publish)
+     * 9: Published
      */
     @TableField("status")
     private Short status;
     /**
-     * 拒绝理由
+     * Rejection reason
      */
     @TableField("reason")
     private String reason;
 
-     //状态枚举类
-     public enum Status{
+    /**
+     * Article status enumeration
+     */
+    public enum Status{
         NORMAL((short)0),SUBMIT((short)1),FAIL((short)2),ADMIN_AUTH((short)3),ADMIN_SUCCESS((short)4),SUCCESS((short)8),PUBLISHED((short)9);
          short code;
          Status(short code){

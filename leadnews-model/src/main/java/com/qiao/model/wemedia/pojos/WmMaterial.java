@@ -10,9 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>
- * 自媒体图文素材信息表
- * </p>
+ * WeMedia material information entity
  *
  * @author itheima
  */
@@ -23,39 +21,39 @@ public class WmMaterial implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * Primary key
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 自媒体用户ID
+     * WeMedia user ID
      */
     @TableField("user_id")
     private Integer userId;
 
     /**
-     * 图片地址
+     * Material URL
      */
     @TableField("url")
     private String url;
 
     /**
-     * 素材类型
-            0 图片
-            1 视频
+     * Material type
+     * 0: Image
+     * 1: Video
      */
     @TableField("type")
     private Short type;
 
     /**
-     * 是否收藏
+     * Whether collected
      */
     @TableField("is_collection")
     private Short isCollection;
 
     /**
-     * 创建时间
+     * Creation time
      */
     @TableField("created_time")
     private Date createdTime;

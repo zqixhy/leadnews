@@ -2,7 +2,7 @@ package com.qiao.model.common.enums;
 
 public enum AppHttpCodeEnum {
     SUCCESS(200,"success"),
-    PARAM_INVALID(501,"无效参数"),
+    PARAM_INVALID(501,"Invalid parameter"),
     NEED_LOGIN(1,"please login"),
     LOGIN_PASSWORD_ERROR(2,"password error"),
     SERVER_ERROR(503,"server error"),

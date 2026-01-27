@@ -1,8 +1,4 @@
-server:
-  port: 51601
 spring:
-  application:
-    name: leadnews-app-gateway
   cloud:
     gateway:
       globalcors:
@@ -19,25 +15,25 @@ spring:
               - OPTION
       routes:
         - id: user
-          uri: http://localhost:51801
+          uri: lb://leadnews-user
           predicates:
             - Path=/user/**
           filters:
             - StripPrefix= 1
         - id: article
-          uri: http://localhost:51802
+          uri: lb://leadnews-article
           predicates:
             - Path=/article/**
           filters:
             - StripPrefix= 1
         - id: search
-          uri: http://localhost:51804
+          uri: lb://leadnews-search
           predicates:
             - Path=/search/**
           filters:
             - StripPrefix= 1
         - id: behavior
-          uri: http://localhost:51805
+          uri: lb://leadnews-behavior
           predicates:
             - Path=/behavior/**
           filters:

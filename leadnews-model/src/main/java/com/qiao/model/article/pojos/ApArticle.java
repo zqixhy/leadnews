@@ -26,42 +26,50 @@ public class ApArticle implements Serializable {
     private String channelName;
 
     /**
-     * 文章布局  0 无图文章   1 单图文章    2 多图文章
+     * Article layout type
+     * 0: No image
+     * 1: Single image
+     * 2: Multiple images
      */
     private Short layout;
 
     /**
-     * 文章标记  0 普通文章   1 热点文章   2 置顶文章   3 精品文章   4 大V 文章
+     * Article flag
+     * 0: Normal article
+     * 1: Hot article
+     * 2: Pinned article
+     * 3: Featured article
+     * 4: VIP article
      */
     private Byte flag;
 
     /**
-     * 文章封面图片 多张逗号分隔
+     * Article cover images (comma-separated)
      */
     private String images;
 
     /**
-     * 标签
+     * Article tags
      */
     private String labels;
 
     /**
-     * 点赞数量
+     * Like count
      */
     private Integer likes;
 
     /**
-     * 收藏数量
+     * Collection count
      */
     private Integer collection;
 
     /**
-     * 评论数量
+     * Comment count
      */
     private Integer comment;
 
     /**
-     * 阅读数量
+     * View count
      */
     private Integer views;
 
@@ -83,18 +91,18 @@ public class ApArticle implements Serializable {
     private Date publishTime;
 
     /**
-     * 同步状态
+     * Synchronization status
      */
     @TableField("sync_status")
     private Boolean syncStatus;
 
     /**
-     * 来源
+     * Article origin
      */
     private Boolean origin;
 
     /**
-     * 静态页面地址
+     * Static page URL
      */
     @TableField("static_url")
     private String staticUrl;

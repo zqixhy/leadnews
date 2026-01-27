@@ -26,12 +26,19 @@ public class ConfusionModule extends Module {
         context.addBeanDeserializerModifier(new ConfusionDeserializerModifier());
     }
 
+    /**
+     * Register the confusion module to ObjectMapper
+     * Note: Different naming strategies:
+     * - CamelCase: personId -> personId
+     * - PascalCase: personId -> PersonId
+     * - SnakeCase: personId -> person_id
+     * - KebabCase: personId -> person-id
+     *
+     * @param objectMapper ObjectMapper instance to configure
+     * @return Configured ObjectMapper instance
+     */
     public static ObjectMapper registerModule(ObjectMapper objectMapper){
-        //CamelCase策略，Java对象属性：personId，序列化后属性：persionId
-        //PascalCase策略，Java对象属性：personId，序列化后属性：PersonId
-        //SnakeCase策略，Java对象属性：personId，序列化后属性：person_id
-        //KebabCase策略，Java对象属性：personId，序列化后属性：person-id
-        // 忽略多余字段，抛错
+        // Ignore unknown properties during deserialization
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 //        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         return objectMapper.registerModule(new ConfusionModule());

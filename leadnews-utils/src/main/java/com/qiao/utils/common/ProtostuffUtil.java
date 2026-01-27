@@ -9,10 +9,11 @@ import io.protostuff.runtime.RuntimeSchema;
 public class ProtostuffUtil {
 
     /**
-     * 序列化
-     * @param t
-     * @param <T>
-     * @return
+     * Serialize object to byte array using Protostuff
+     *
+     * @param t Object to serialize
+     * @param <T> Object type
+     * @return Serialized byte array
      */
     public static <T> byte[] serialize(T t){
         Schema schema = RuntimeSchema.getSchema(t.getClass());
@@ -22,11 +23,12 @@ public class ProtostuffUtil {
     }
 
     /**
-     * 反序列化
-     * @param bytes
-     * @param c
-     * @param <T>
-     * @return
+     * Deserialize byte array to object using Protostuff
+     *
+     * @param bytes Byte array to deserialize
+     * @param c Target class
+     * @param <T> Object type
+     * @return Deserialized object
      */
     public static <T> T deserialize(byte []bytes,Class<T> c) {
         T t = null;
@@ -43,8 +45,9 @@ public class ProtostuffUtil {
     }
 
     /**
-     * jdk序列化与protostuff序列化对比
-     * @param args
+     * Performance comparison between JDK serialization and Protostuff serialization
+     *
+     * @param args Command line arguments
      */
     public static void main(String[] args) {
         long start =System.currentTimeMillis();
@@ -52,14 +55,14 @@ public class ProtostuffUtil {
             WmNews wmNews =new WmNews();
             JdkSerializeUtil.serialize(wmNews);
         }
-        System.out.println(" jdk 花费 "+(System.currentTimeMillis()-start));
+        System.out.println("JDK serialization time: "+(System.currentTimeMillis()-start)+"ms");
 
         start =System.currentTimeMillis();
         for (int i = 0; i <1000000 ; i++) {
             WmNews wmNews =new WmNews();
             ProtostuffUtil.serialize(wmNews);
         }
-        System.out.println(" protostuff 花费 "+(System.currentTimeMillis()-start));
+        System.out.println("Protostuff serialization time: "+(System.currentTimeMillis()-start)+"ms");
     }
 
  

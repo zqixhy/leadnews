@@ -1,17 +1,4 @@
-server:
-  port: 51803
 spring:
-  application:
-    name: leadnews-wemedia
-  cloud:
-    discovery:
-      client:
-        simple:
-          instances:
-            leadnews-article:
-              - uri: http://localhost:51802
-            leadnews-schedule:
-              - uri: http://localhost:51701
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/leadnews_wemedia?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true

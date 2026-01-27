@@ -6,15 +6,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * jdk序列化
+ * JDK serialization utility
  */
 public class JdkSerializeUtil {
 
     /**
-     * 序列化
-     * @param obj
-     * @param <T>
-     * @return
+     * Serialize object to byte array using JDK serialization
+     *
+     * @param obj Object to serialize
+     * @param <T> Object type
+     * @return Serialized byte array
      */
     public static <T> byte[] serialize(T obj) {
 
@@ -35,11 +36,12 @@ public class JdkSerializeUtil {
     }
 
     /**
-     * 反序列化
-     * @param data
-     * @param clazz
-     * @param <T>
-     * @return
+     * Deserialize byte array to object using JDK deserialization
+     *
+     * @param data Byte array to deserialize
+     * @param clazz Target class
+     * @param <T> Object type
+     * @return Deserialized object
      */
     public static <T> T deserialize(byte[] data, Class<T> clazz) {
         ByteArrayInputStream bis = new ByteArrayInputStream(data);

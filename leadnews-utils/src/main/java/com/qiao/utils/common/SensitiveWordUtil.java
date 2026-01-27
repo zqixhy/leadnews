@@ -9,19 +9,21 @@ public class SensitiveWordUtil {
 
 
     /**
-     * 生成关键词字典库
-     * @param words
-     * @return
+     * Initialize sensitive word dictionary using Trie structure
+     * Builds a tree structure where each node contains the next character and an end flag
+     *
+     * @param words Collection of sensitive words to build dictionary
      */
     public static void initMap(Collection<String> words) {
         if (words == null) {
-            System.out.println("敏感词列表不能为空");
+            System.out.println("Sensitive word list cannot be empty");
             return ;
         }
 
-        // map初始长度words.size()，整个字典库的入口字数(小于words.size()，因为不同的词可能会有相同的首字)
+        // Initialize map with words.size() capacity
+        // Note: actual entry count may be less due to words sharing the same first character
         Map<String, Object> map = new HashMap<>(words.size());
-        // 遍历过程中当前层次的数据
+        // Current level data during traversal
         Map<String, Object> curMap = null;
         Iterator<String> iterator = words.iterator();
 
@@ -30,18 +32,19 @@ public class SensitiveWordUtil {
             curMap = map;
             int len = word.length();
             for (int i =0; i < len; i++) {
-                // 遍历每个词的字
+                // Traverse each character in the word
                 String key = String.valueOf(word.charAt(i));
-                // 当前字在当前层是否存在, 不存在则新建, 当前层数据指向下一个节点, 继续判断是否存在数据
+                // Check if current character exists in current level
+                // If not, create new node and point current level to next node
                 Map<String, Object> wordMap = (Map<String, Object>) curMap.get(key);
                 if (wordMap == null) {
-                    // 每个节点存在两个数据: 下一个节点和isEnd(是否结束标志)
+                    // Each node contains: next node map and isEnd flag
                     wordMap = new HashMap<>(2);
                     wordMap.put("isEnd", "0");
                     curMap.put(key, wordMap);
                 }
                 curMap = wordMap;
-                // 如果当前字是词的最后一个字，则将isEnd标志置1
+                // If current character is the last one, set isEnd flag to "1"
                 if (i == len -1) {
                     curMap.put("isEnd", "1");
                 }
@@ -52,23 +55,24 @@ public class SensitiveWordUtil {
     }
 
     /**
-     * 搜索文本中某个文字是否匹配关键词
-     * @param text
-     * @param beginIndex
-     * @return
+     * Check if text starting from beginIndex matches any sensitive word
+     *
+     * @param text Text to check
+     * @param beginIndex Starting index in text
+     * @return Length of matched word, 0 if no match
      */
     private static int checkWord(String text, int beginIndex) {
         if (dictionaryMap == null) {
-            throw new RuntimeException("字典不能为空");
+            throw new RuntimeException("Dictionary cannot be empty");
         }
         boolean isEnd = false;
         int wordLength = 0;
         Map<String, Object> curMap = dictionaryMap;
         int len = text.length();
-        // 从文本的第beginIndex开始匹配
+        // Match from beginIndex in text
         for (int i = beginIndex; i < len; i++) {
             String key = String.valueOf(text.charAt(i));
-            // 获取当前key的下一个节点
+            // Get next node for current key
             curMap = (Map<String, Object>) curMap.get(key);
             if (curMap == null) {
                 break;
@@ -86,9 +90,10 @@ public class SensitiveWordUtil {
     }
 
     /**
-     * 获取匹配的关键词和命中次数
-     * @param text
-     * @return
+     * Find all matched sensitive words and their occurrence count in text
+     *
+     * @param text Text to search
+     * @return Map of matched words and their occurrence count
      */
     public static Map<String, Integer> matchWords(String text) {
         Map<String, Integer> wordMap = new HashMap<>();
@@ -97,7 +102,7 @@ public class SensitiveWordUtil {
             int wordLength = checkWord(text, i);
             if (wordLength > 0) {
                 String word = text.substring(i, i + wordLength);
-                // 添加关键词匹配次数
+                // Increment match count for keyword
                 if (wordMap.containsKey(word)) {
                     wordMap.put(word, wordMap.get(word) + 1);
                 } else {
@@ -116,17 +121,17 @@ public class SensitiveWordUtil {
         list.add("信用卡提现");
         list.add("广告代理");
 
-        //初始化敏感词库
+        // Initialize sensitive word dictionary
         initMap(list);
 
 
         String content="江户川柯南私人侦探，可以帮你解决：商务调查，要账清债，企业打假，寻人找人，财产调查，私人调查，电话：12345678901";
-        //文本中查找是否包含敏感词
+        // Search for sensitive words in text
         Map<String, Integer> map = matchWords(content);
         if(map.size() > 0){
             System.out.println(map);
         }else {
-            System.out.println("没有找到敏感词");
+            System.out.println("No sensitive words found");
         }
 
     }
